@@ -56,7 +56,7 @@
                     '</div>' +
                 '</div>' +
             '</div>',
-            '<div class="r-message" id="modal' + times + '">' +
+            '<div class="r-message animated bounceIn" id="modal' + times + '">' +
                 '<div class="r-message__icon"><i class="r-iconfont r-icon-' + config.icon + ' text_' + config.icon + '"></i></div>' +
                 '<div class="r-message__text">' + config.content + '</div>' +
             '</div>'
@@ -85,7 +85,7 @@
         this.modalFlag = '#' + doms.modal + modal.index;
         console.log(this.modalFlag);
 
-        // this.offset();
+        this.offset();
         this.close();
     }
 
@@ -101,7 +101,9 @@
             winHeight = $win.height();
 
         $modalDialog.css({
-            'margin-top': (winHeight - area.height) / 2
+            position: 'fixed',
+            top : (winHeight - area.height) / 2,
+            left : (winWidth - area.width) / 2
         });
     }
 
