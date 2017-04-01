@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>relax</title>
+    @@include('layout/base_link.html')
+</head>
+<body>
+    <div class="aside-nav">
+        <dl>
+            <dt>基础组件</dt>
+            <dd class="aside-nav_classify">Basic</dd>
+            <dd><a href="#Buttons">Buttons 按钮</a></dd>
+            <dd><a href="#Checkbox">Checkbox 多选框</a></dd>
+            <dd><a href="#Radio">Radio 单选框</a></dd>
+            <dd><a href="#Tree">Tree 树形控件</a></dd>
+            <dd><a href="#Table">Table 表格</a></dd>
+            <dd><a href="#Pagination">Pagination 分页</a></dd>
+
+            <dd class="aside-nav_classify">Notice</dd>
+            <dd><a href="#Modals">Modals 模态框</a></dd>
+            <dd><a href="#Messages">Messages 消息提示</a></dd>
+        </dl>
+    </div>
+    <div class="main">
+        <!-- name -->
+        <div class="example">
+            <div class="example__header">
+                <div class="example__title-primary">关于命名</div>
+            </div>
+            <div class="example__body">
+                <p>采用r-aaa__bbb-bbb_ccc-ccc这种形式，横杠为连词符，双下划线区分Block和Element（BEM），单下划线连接Modify。下面列出几个例子：</p>
+                <p>r-btn_primary</p>
+                <p>r-modal__header__aa</p>
+            </div>
+        </div>
+
+        <!-- buttons -->
+        <div class="example" id="Buttons">
+            <div class="example__header">
+                <div class="example__title-primary">Buttons 按钮</div>
+            </div>
+            <div class="example__body">
+                @@include('components/buttons.html')
+            </div>
+        </div>
+
+        <!-- checkbox -->
+        <div class="example" id="Checkbox">
+            <div class="example__header">
+                <div class="example__title-primary">Checkbox 单选框</div>
+            </div>
+            <div class="example__body">
+                @@include('components/checkbox.html')
+            </div>
+        </div>
+
+        <!-- radio -->
+        <div class="example" id="Radio">
+            <div class="example__header">
+                <div class="example__title-primary">Radio 多选框</div>
+            </div>
+            <div class="example__body">
+                @@include('components/radio.html')
+            </div>
+        </div>
+
+        <!-- modals -->
+        <div class="example" id="Modals">
+            <div class="example__header">
+                <div class="example__title-primary">Modals 模态框</div>
+            </div>
+            <div class="example__body">
+                @@include('components/modals.html')
+            </div>
+        </div>
+
+        <!-- messages -->
+        <div class="example" id="Messages">
+            <div class="example__header">
+                <div class="example__title-primary">Messages 消息提示</div>
+            </div>
+            <div class="example__body">
+                @@include('components/messages.html')
+            </div>
+        </div>
+
+        <!-- tree -->
+        <div class="example" id="Tree">
+            <div class="example__header">
+                <div class="example__title-primary">Tree 树形控件</div>
+            </div>
+            <div class="example__body">
+                @@include('components/tree.html')
+            </div>
+        </div>
+
+        <!-- table -->
+        <div class="example" id="Table">
+            <div class="example__header">
+                <div class="example__title-primary">Table 表格</div>
+            </div>
+            <div class="example__body">
+                @@include('components/table.html')
+            </div>
+        </div>
+
+        <!-- pagination -->
+        <div class="example" id="Pagination">
+            <div class="example__header">
+                <div class="example__title-primary">Pagination 分页</div>
+            </div>
+            <div class="example__body">
+                @@include('components/pagination.html')
+            </div>
+        </div>
+    </div>
+    @@include('layout/bottom.html')
+<script>
+
+</script>
+</body>
+</html>

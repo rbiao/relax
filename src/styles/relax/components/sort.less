@@ -1,0 +1,47 @@
+.sort-wrapper{
+    .relative(_);
+    cursor: pointer;
+}
+
+.caret-wrapper{
+    display: inline-block;
+    .relative(_);
+    .size(14px);
+    vertical-align: middle;
+    cursor: pointer;
+
+    .caret-sort-ascending, .caret-sort-descending{
+        display: inline-block;
+        width: 0;
+        height: 0;
+        border: 0;
+        content: "";
+        position: absolute;
+        left: 5px;
+        z-index: 2;
+    }
+
+    .caret-sort-ascending{
+        border-right: 5px solid transparent;
+        border-left: 5px solid transparent;
+        top: 0px;
+        border-top: none;
+        border-bottom: 5px solid @sort-default-color;
+    }
+
+    .caret-sort-descending{
+        border-right: 5px solid transparent;
+        border-left: 5px solid transparent;
+        top: 7px;
+        border-bottom: none;
+        border-top: 5px solid @sort-default-color;
+    }
+}
+
+.ascending .caret-sort-ascending{
+    border-bottom-color: @sort-selected-color;
+}
+
+.descending .caret-sort-descending{
+    border-top-color: @sort-selected-color;
+}

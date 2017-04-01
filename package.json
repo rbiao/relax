@@ -1,0 +1,31 @@
+{
+  "name": "biu",
+  "version": "1.0.0",
+  "description": " less",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.17.6",
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^3.0.3",
+    "gulp-css-spritesmith": "^0.0.5",
+    "gulp-file-include": "^0.13.7",
+    "gulp-if": "^2.0.2",
+    "gulp-less": "^3.3.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sequence": "^0.4.6",
+    "gulp.spritesmith": "^6.3.0",
+    "merge-stream": "^1.0.1",
+    "sprity-less": "^1.0.3",
+    "vinyl-buffer": "^1.0.0"
+  },
+  "dependencies": {
+    "sprity": "^1.0.8"
+  }
+}

@@ -1,0 +1,184 @@
+// 1. colors
+
+@gray-dark:                 #292b2c;
+@gray:                      #464a4c;
+@gray-light:                #636c72;
+@gray-lighter:              #eceeef;
+@gray-lightest:             #f7f7f9;
+
+@brand-primary:             #20a0ff;
+@brand-success:             #13ce66;
+@brand-info:                #5bc0de;
+@brand-warning:             #f7ba2a;
+@brand-danger:              #ff4949;
+
+// 2. Body
+// 设置body元素.
+
+@body-bg:       #fff;
+@body-color:    @gray-dark;
+
+// 3. Links
+// Style anchor elements.
+
+@link-color:            @brand-primary;
+@link-decoration:       none;
+@link-hover-color:      darken(@link-color, 15%);
+@link-hover-decoration: underline;
+
+// 4. Fonts
+// Font, line-height, and color for body text, headings, and more.
+
+@font-family: @font-hei;
+@font-size: 14px;
+@line-height: 1.5;
+@font-color: #333;
+
+@placeholder-color: @gray-light;
+
+/*
+ *  Fonts.css -- Cross-platform Chinese fonts solution
+ *  Github: https://github.com/zenozeng/fonts.css
+ */
+
+@font-hei: -apple-system, "Helvetica Neue", Helvetica, "Nimbus Sans L", Arial, "Liberation Sans", "PingFang SC", "Hiragino Sans GB", "Source Han Sans CN", "Source Han Sans SC", "Microsoft YaHei", "Wenquanyi Micro Hei", "WenQuanYi Zen Hei", "ST Heiti", SimHei, "WenQuanYi Zen Hei Sharp", sans-serif;
+@font-kai: Baskerville, Georgia, "Liberation Serif", "Kaiti SC", STKaiti, "AR PL UKai CN", "AR PL UKai HK", "AR PL UKai TW", "AR PL UKai TW MBE", "AR PL KaitiM GB", KaiTi, KaiTi_GB2312, DFKai-SB, "TW\-Kai", serif;
+@font-song: Georgia, "Nimbus Roman No9 L", "Songti SC", STSong, "AR PL New Sung", "AR PL SungtiL GB", NSimSun, SimSun, "TW\-Sung", "WenQuanYi Bitmap Song", "AR PL UMing CN", "AR PL UMing HK", "AR PL UMing TW", "AR PL UMing TW MBE", PMingLiU, MingLiU, serif;
+@font-fang-song: Baskerville, "Times New Roman", "Liberation Serif", STFangsong, FangSong, FangSong_GB2312, "CWTEX\-F", serif;
+
+@box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+@cursor-disabled: not-allowed;
+
+@border-radius:          4px;
+@border-radius-lg:       6px;
+@border-radius-sm:       2px;
+
+// Z-Index Scale (private vars)
+@zindex-1:   100;
+@zindex-2:   200;
+@zindex-3:   300;
+@zindex-4:   400;
+@zindex-5:   500;
+@zindex-6:   600;
+@zindex-7:   700;
+@zindex-8:   800;
+@zindex-9:   900;
+@zindex-10: 1000;
+
+@zindex-modal: @zindex-6;
+@zindex-modal-backdrop: @zindex-5;
+
+// sort 颜色
+@sort-default-color: @gray-lighter;
+@sort-selected-color: @brand-primary;
+
+
+// btn
+@btn-font-weight: 400;
+@btn-line-height: 1.2;
+@btn-border-width: 1px;
+
+@btn-box-shadow: inset 0 1px 0 rgba(255,255,255,.15), 0 1px 1px rgba(0,0,0,.075);
+@btn-active-box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
+
+@btn-primary-color: #fff;
+@btn-primary-bg: @brand-primary;
+@btn-primary-border: @btn-primary-bg;
+
+@btn-secondary-color: @gray-dark;
+@btn-secondary-bg: #fff;
+@btn-secondary-border: #ccc;
+
+@btn-info-color: #fff;
+@btn-info-bg: @brand-info;
+@btn-info-border: @btn-info-bg;
+
+@btn-success-color: #fff;
+@btn-success-bg: @brand-success;
+@btn-success-border: @btn-success-bg;
+
+@btn-warning-color: #fff;
+@btn-warning-bg: @brand-warning;
+@btn-warning-border: @btn-warning-bg;
+
+@btn-danger-color: #fff;
+@btn-danger-bg: @brand-danger;
+@btn-danger-border: @btn-danger-bg;
+
+@btn-link-disabled-color: @gray-light;
+
+@btn-padding-y: 6px;
+@btn-padding-x: 12px;
+@font-size-base: @font-size;
+@btn-border-radius: @border-radius;
+
+@btn-padding-y-lg: 10px;
+@btn-padding-x-lg: 16px;
+@font-size-lg: 18px;
+@btn-border-radius-lg: @border-radius-lg;
+
+@btn-padding-y-sm: 5px;
+@btn-padding-x-sm: 10px;
+@font-size-sm: 12px;
+@btn-border-radius-sm: @border-radius-sm;
+
+@btn-block-spacing-y: 10px;
+
+// modals
+@modal-inner-padding:         15px;
+
+@modal-dialog-margin:         30px auto;
+@modal-dialog-sm-up-margin-y: 30px;
+
+@modal-title-line-height:     @line-height;
+
+@modal-content-bg:               #fff;
+@modal-content-border-color:     rgba(0,0,0,.2);
+@modal-content-border-width:     1px;
+@modal-content-xs-box-shadow:    0 3px 9px rgba(0,0,0,.5);
+@modal-content-sm-up-box-shadow: 0 5px 15px rgba(0,0,0,.5);
+
+@modal-backdrop-bg:           #000;
+@modal-backdrop-opacity:      .5;
+@modal-header-border-color:   #e5e5e5;
+@modal-footer-border-color:   @modal-header-border-color;
+@modal-header-border-width:   @modal-content-border-width;
+@modal-footer-border-width:   @modal-header-border-width;
+@modal-header-padding:        15px;
+
+@modal-lg:                    800px;
+@modal-md:                    500px;
+@modal-sm:                    300px;
+
+// close
+@close-font-weight: 700;
+@close-color: #000;
+@close-text-shadow: 0 1px 0 #fff;
+
+
+// pagination
+
+@pagination-padding-x:                10px;
+@pagination-padding-y:                5px;
+@pagination-padding-x-sm:             5px;
+@pagination-padding-y-sm:             5px;
+@pagination-padding-x-lg:             15px;
+@pagination-padding-y-lg:             10px;
+@pagination-line-height:              1.25;
+
+@pagination-color:                     @link-color;
+@pagination-bg:                        #fff;
+@pagination-border-width:              1px;
+@pagination-border-color:              #ddd;
+
+@pagination-hover-color:               @link-hover-color;
+@pagination-hover-bg:                  @gray-lighter;
+@pagination-hover-border:              #ddd;
+
+@pagination-active-color:              #fff;
+@pagination-active-bg:                 @brand-primary;
+@pagination-active-border:             @brand-primary;
+
+@pagination-disabled-color:            @gray-light;
+@pagination-disabled-bg:               #fff;
+@pagination-disabled-border:           #ddd;

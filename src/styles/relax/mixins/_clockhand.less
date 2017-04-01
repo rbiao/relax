@@ -1,0 +1,246 @@
+//
+// Clockhand
+// -----------------------------------------------------------------------------
+//
+// ### Usage:
+// Helpers for writing properties in clockhand manner.
+
+.clockhand(@values; @context-px-size: @default-font-size; @prefix: ~""; @suffix: ~""; @collapse: false; @unit: false) {
+    @l: length(@values);
+    @pre: ~`'@{prefix}' ? '@{prefix}-' : ''`;
+    @suf: ~`'@{suffix}' ? '-@{suffix}' : ''`;
+
+    .map(1) {
+        @top: extract(@values, 1);
+        @right: @top;
+        @bottom: @top;
+        @left: @top;
+    }
+    .map(2) {
+        @top: extract(@values, 1);
+        @right: extract(@values, 2);
+        @bottom: @top;
+        @left: @right;
+    }
+    .map(3) {
+        @top: extract(@values, 1);
+        @right: extract(@values, 2);
+        @bottom: extract(@values, 3);
+        @left: @right;
+    }
+    .map(4) {
+        @top: extract(@values, 1);
+        @right: extract(@values, 2);
+        @bottom: extract(@values, 3);
+        @left: extract(@values, 4);
+    }
+    .map(@l);
+
+    .reduce() when (@collapse) and not (@top = _) and not (@right = _)
+        and not (@bottom = _) and not (@left = _) {
+        .output-var() when not (@unit) {
+            @top-var: @top;
+            @right-var: @right;
+            @bottom-var: @bottom;
+            @left-var: @left;
+        }
+        .output-var() when (@unit = em), (@unit = rem) {
+            @top-var: unit(@top / @context-px-size, @unit);
+            @right-var: unit(@right / @context-px-size, @unit);
+            @bottom-var: unit(@bottom / @context-px-size, @unit);
+            @left-var: unit(@left / @context-px-size, @unit);
+        }
+        .output-var();
+
+        .output() {
+            @shorthand: @top-var;
+        }
+        .output() when not (@right = @top) {
+            @shorthand: @top-var @right-var;
+        }
+        .output() when not (@bottom = @top) {
+            @shorthand: @top-var @right-var @bottom-var;
+        }
+        .output() when not (@left = @right) {
+            @shorthand: @top-var @right-var @bottom-var @left-var;
+        }
+        .output();
+
+        @{prefix}@{suf}: @shorthand;
+    }
+    .reduce() when (default()) {
+        .output() when not (@top = _) {
+            .output-var() when not (@unit) {
+                @top-var: @top;
+            }
+            .output-var() when (@unit = em), (@unit = rem) {
+                @top-var: unit(unit(@top / @context-px-size), @unit);
+            }
+            .output-var();
+
+            @{pre}top@{suf}: @top-var;
+        }
+        .output() when not (@right = _) {
+            .output-var() when not (@unit) {
+                @right-var: @right;
+            }
+            .output-var() when (@unit = em), (@unit = rem) {
+                @right-var: unit(unit(@right / @context-px-size), @unit);
+            }
+            .output-var();
+
+            @{pre}right@{suf}: @right-var;
+        }
+        .output() when not (@bottom = _) {
+            .output-var() when not (@unit) {
+                @bottom-var: @bottom;
+            }
+            .output-var() when (@unit = em), (@unit = rem) {
+                @bottom-var: unit(unit(@bottom / @context-px-size), @unit);
+            }
+            .output-var();
+
+            @{pre}bottom@{suf}: @bottom-var;
+        }
+        .output() when not (@left = _) {
+            .output-var() when not (@unit) {
+                @left-var: @left;
+            }
+            .output-var() when (@unit = em), (@unit = rem) {
+                @left-var: unit(unit(@left / @context-px-size), @unit);
+            }
+            .output-var();
+
+            @{pre}left@{suf}: @left-var;
+        }
+        .output();
+    }
+    .reduce();
+}
+
+.absolute(@values; @z-index: auto) {
+    position: absolute;
+    .clockhand(@values);
+
+    .z-index() when (isnumber(@z-index)){
+        z-index: @z-index;
+    }
+    .z-index();
+}
+
+.fixed(@values; @z-index: auto) {
+    position: fixed;
+    .clockhand(@values);
+
+    .z-index() when (isnumber(@z-index)){
+        z-index: @z-index;
+    }
+    .z-index();
+}
+
+.relative(@values; @z-index: auto) {
+    position: relative;
+    .clockhand(@values);
+
+    .z-index() when (isnumber(@z-index)){
+        z-index: @z-index;
+    }
+    .z-index();
+}
+
+.padding(...) {
+    .clockhand(@arguments; @default-font-size; padding; ~""; true; false);
+}
+
+.margin(...) {
+    .clockhand(@arguments; @default-font-size; margin; ~""; true; false);
+}
+
+.border-color(...) {
+    .clockhand(@arguments; @default-font-size; border; color; true; false);
+}
+
+.border-style(...) {
+    .clockhand(@arguments; @default-font-size; border; style; true; false);
+}
+
+.border-width(...) {
+    .clockhand(@arguments; @default-font-size; border; width; true; false);
+}
+
+// 用于辅助计算position,margin,padding的em和rem值
+.margin-em(@values; @context-px-size: @default-font-size) {
+    .clockhand(@values; @context-px-size; margin; ~""; true; em);
+}
+
+.padding-em(@values; @context-px-size: @default-font-size) {
+    .clockhand(@values; @context-px-size; padding; ~""; true; em);
+}
+
+.margin-rem(...) {
+    .clockhand(@arguments; @context-px-size: @default-font-size; margin; ~""; true; em);
+}
+
+.padding-rem(...) {
+    .clockhand(@arguments; @context-px-size: @default-font-size; padding; ~""; true; em);
+}
+
+.absolute-em(@values; @z-index: auto; @context-px-size: @default-font-size) {
+    position: absolute;
+    .clockhand(@values; @context-px-size; ~""; ~""; false; em);
+
+    .z-index() when (isnumber(@z-index)){
+        z-index: @z-index;
+    }
+    .z-index();
+}
+
+.fixed-em(@values; @z-index: auto; @context-px-size: @default-font-size) {
+    position: fixed;
+    .clockhand(@values; @context-px-size; ~""; ~""; false; em);
+
+    .z-index() when (isnumber(@z-index)){
+        z-index: @z-index;
+    }
+    .z-index();
+}
+
+.relative-em(@values; @z-index: auto; @context-px-size: @default-font-size) {
+    position: relative;
+    .clockhand(@values; @context-px-size; ~""; ~""; false; em);
+
+    .z-index() when (isnumber(@z-index)){
+        z-index: @z-index;
+    }
+    .z-index();
+}
+
+.absolute-rem(@values; @z-index: auto;) {
+    position: absolute;
+    .clockhand(@values; @context-px-size: @default-font-size; ~""; ~""; false; rem);
+
+    .z-index() when (isnumber(@z-index)){
+        z-index: @z-index;
+    }
+    .z-index();
+}
+
+.fixed-rem(@values; @z-index: auto;) {
+    position: fixed;
+    .clockhand(@values; @context-px-size: @default-font-size; ~""; ~""; false; rem);
+
+    .z-index() when (isnumber(@z-index)){
+        z-index: @z-index;
+    }
+    .z-index();
+}
+
+.relative-rem(@values; @z-index: auto;) {
+    position: relative;
+    .clockhand(@values; @context-px-size: @default-font-size; ~""; ~""; false; rem);
+
+    .z-index() when (isnumber(@z-index)){
+        z-index: @z-index;
+    }
+    .z-index();
+}

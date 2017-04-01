@@ -1,0 +1,9 @@
+// Box sizing
+.box-sizing(@boxmodel) when (@use-autoprefixer) {
+    -webkit-box-sizing: @boxmodel;
+       -moz-box-sizing: @boxmodel;
+            box-sizing: @boxmodel;
+}
+.box-sizing(@boxmodel) when not (@use-autoprefixer) {
+    box-sizing: @boxmodel;
+}

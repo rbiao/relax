@@ -1,0 +1,317 @@
+// 用于辅助计算border-radius的em和rem值
+.clockhand-radius(@radius-x: @default-border-radius; @radius-y: @default-border-radius; @context-px-size: @default-font-size; @unit: false) {
+    @l-x: length(@radius-x);
+    @l-y: length(@radius-y);
+
+    // 水平方向radius
+    .map-x(1) {
+        @top-left-x: extract(@radius-x, 1);
+        @top-right-x: @top-left-x;
+        @bottom-right-x: @top-left-x;
+        @bottom-left-x: @top-left-x;
+    }
+    .map-x(2) {
+        @top-left-x: extract(@radius-x, 1);
+        @top-right-x: extract(@radius-x, 2);
+        @bottom-right-x: @top-left-x;
+        @bottom-left-x: @top-right-x;
+    }
+    .map-x(3) {
+        @top-left-x: extract(@radius-x, 1);
+        @top-right-x: extract(@radius-x, 2);
+        @bottom-right-x: extract(@radius-x, 3);
+        @bottom-left-x: @top-right-x;
+    }
+    .map-x(4) {
+        @top-left-x: extract(@radius-x, 1);
+        @top-right-x: extract(@radius-x, 2);
+        @bottom-right-x: extract(@radius-x, 3);
+        @bottom-left-x: extract(@radius-x, 4);
+    }
+    .map-x(@l-x);
+
+    // 垂直方向radius
+    .map-y(1) {
+        @top-left-y: extract(@radius-y, 1);
+        @top-right-y: @top-left-y;
+        @bottom-right-y: @top-left-y;
+        @bottom-left-y: @top-left-y;
+    }
+    .map-y(2) {
+        @top-left-y: extract(@radius-y, 1);
+        @top-right-y: extract(@radius-y, 2);
+        @bottom-right-y: @top-left-y;
+        @bottom-left-y: @top-right-y;
+    }
+    .map-y(3) {
+        @top-left-y: extract(@radius-y, 1);
+        @top-right-y: extract(@radius-y, 2);
+        @bottom-right-y: extract(@radius-y, 3);
+        @bottom-left-y: @top-right-y;
+    }
+    .map-y(4) {
+        @top-left-y: extract(@radius-y, 1);
+        @top-right-y: extract(@radius-y, 2);
+        @bottom-right-y: extract(@radius-y, 3);
+        @bottom-left-y: extract(@radius-y, 4);
+    }
+    .map-y(@l-y);
+
+    // 四角radius和加前缀
+    // top left
+    .border-top-left-radius-prefix(@top-left-x; @top-left-y: ~'') when (@use-autoprefixer) {
+        -webkit-border-top-left-radius: @top-left-x @top-left-y;
+           -moz-border-top-left-radius: @top-left-x @top-left-y;
+                border-top-left-radius: @top-left-x @top-left-y;
+    }
+    .border-top-left-radius-prefix(@top-left-x; @top-left-y: ~'') when not (@use-autoprefixer) {
+        border-top-left-radius: @top-left-x @top-left-y;
+    }
+
+    // top right
+    .border-top-right-radius-prefix(@top-right-x; @top-right-y: ~'') when (@use-autoprefixer) {
+        -webkit-border-top-right-radius: @top-right-x @top-right-y;
+           -moz-border-top-right-radius: @top-right-x @top-right-y;
+                border-top-right-radius: @top-right-x @top-right-y;
+    }
+    .border-top-right-radius-prefix(@top-right-x; @top-right-y: ~'') when not (@use-autoprefixer) {
+        border-top-right-radius: @top-right-x @top-right-y;
+    }
+
+    // bottom right
+    .border-bottom-right-radius-prefix(@bottom-right-x; @bottom-right-y: ~'') when (@use-autoprefixer) {
+        -webkit-border-bottom-right-radius: @bottom-right-x @bottom-right-y;
+           -moz-border-bottom-right-radius: @bottom-right-x @bottom-right-y;
+                border-bottom-right-radius: @bottom-right-x @bottom-right-y;
+    }
+    .border-bottom-right-radius-prefix(@bottom-right-x; @bottom-right-y: ~'') when not (@use-autoprefixer) {
+        border-bottom-right-radius: @bottom-right-x @bottom-right-y;
+    }
+
+    // bottom left
+    .border-bottom-left-radius-prefix(@bottom-left-x; @bottom-left-y: ~'') when (@use-autoprefixer) {
+        -webkit-border-bottom-left-radius: @bottom-left-x @bottom-left-y;
+           -moz-border-bottom-left-radius: @bottom-left-x @bottom-left-y;
+                border-bottom-left-radius: @bottom-left-x @bottom-left-y;
+    }
+    .border-bottom-left-radius-prefix(@bottom-left-x; @bottom-left-y: ~'') when not (@use-autoprefixer) {
+        border-bottom-left-radius: @bottom-left-x @bottom-left-y;
+    }
+
+    .output-var(@var-radius){
+        .output-var() when not (@unit) {
+            @x: @var-radius;
+        }
+        .output-var() when (@unit = em), (@unit = rem) {
+            @x: unit(@var-radius / @context-px-size, @unit);
+        }
+        .output-var();
+    }
+
+    .output-var(@var-radius-x; @var-radius-y){
+        .output-var() when not (@unit) {
+            @x: @var-radius-x;
+            @y: @var-radius-y;
+        }
+        .output-var() when (@unit = em), (@unit = rem) {
+            @x: unit(@var-radius-x / @context-px-size, @unit);
+            @y: unit(@var-radius-y / @context-px-size, @unit);
+        }
+        .output-var();
+    }
+
+    // 水平和垂直方向的radius相等
+    .map-xy() when (@radius-x = @radius-y) {
+        .reduce() when not (@top-left-x = _) and not (@top-right-x = _) and not (@bottom-right-x = _) and not (@bottom-left-x = _) {
+            .output-clockhand-var() when not (@unit) {
+                @top-left-x-var: @top-left-x;
+                @top-right-x-var: @top-right-x;
+                @bottom-right-x-var: @bottom-right-x;
+                @bottom-left-x-var: @bottom-left-x;
+            }
+            .output-clockhand-var() when (@unit = em), (@unit = rem) {
+                @top-left-x-var: unit(unit(@top-left-x) / unit(@context-px-size), @unit);
+                @top-right-x-var: unit(unit(@top-right-x) / unit(@context-px-size), @unit);
+                @bottom-right-x-var: unit(unit(@bottom-right-x) / unit(@context-px-size), @unit);
+                @bottom-left-x-var: unit(unit(@bottom-left-x) / unit(@context-px-size), @unit);
+            }
+            .output-clockhand-var();
+
+            .output-x() {
+                @shorthand-x: @top-left-x-var;
+            }
+            .output-x() when not (@top-left-x = @top-right-x){
+                @shorthand-x: @top-left-x-var @top-right-x-var;
+            }
+            .output-x() when not (@top-left-x = @bottom-right-x){
+                @shorthand-x: @top-left-x-var @top-right-x-var @bottom-right-x-var;
+            }
+            .output-x() when not (@top-right-x = @bottom-left-x){
+                @shorthand-x: @top-left-x-var @top-right-x-var @bottom-right-x-var @bottom-left-x-var;
+            }
+            .output-x();
+
+            .output() when not (@use-autoprefixer) {
+                border-radius: @shorthand-x;
+            }
+            .output() when (@use-autoprefixer) {
+                -webkit-border-radius: @shorthand-x;
+                   -moz-border-radius: @shorthand-x;
+                        border-radius: @shorthand-x;
+            }
+            .output();
+        }
+        .reduce() when (default()) {
+            .output() when not (@top-left-x = _){
+                .output-var(@top-left-x);
+                .border-top-left-radius-prefix(@x);
+            }
+            .output() when not (@top-right-x = _){
+                .output-var(@top-right-x);
+                .border-top-right-radius-prefix(@x);
+            }
+            .output() when not (@bottom-right-x = _){
+                .output-var(@bottom-right-x);
+                .border-bottom-right-radius-prefix(@x);
+            }
+            .output() when not (@bottom-left-x = _){
+                .output-var(@bottom-left-x);
+                .border-bottom-left-radius-prefix(@x);
+            }
+            .output();
+        }
+        .reduce();
+    }
+    // 水平和垂直方向的radius不相等
+    .map-xy() when not (@radius-x = @radius-y) {
+        .reduce() when not (@top-left-x = _) and not (@top-right-x = _) and not (@bottom-right-x = _) and not (@bottom-left-x = _)
+                   and not (@top-left-y = _) and not (@top-right-y = _) and not (@bottom-right-y = _) and not (@bottom-left-y = _) {
+
+            .output-clockhand-var() when not (@unit) {
+                @top-left-x-var: @top-left-x;
+                @top-right-x-var: @top-right-x;
+                @bottom-right-x-var: @bottom-right-x;
+                @bottom-left-x-var: @bottom-left-x;
+
+                @top-left-y-var: @top-left-y;
+                @top-right-y-var: @top-right-y;
+                @bottom-right-y-var: @bottom-right-y;
+                @bottom-left-y-var: @bottom-left-y;
+            }
+            .output-clockhand-var() when (@unit = em), (@unit = rem) {
+                @top-left-x-var: unit(unit(@top-left-x) / unit(@context-px-size), @unit);
+                @top-right-x-var: unit(unit(@top-right-x) / unit(@context-px-size), @unit);
+                @bottom-right-x-var: unit(unit(@bottom-right-x) / unit(@context-px-size), @unit);
+                @bottom-left-x-var: unit(unit(@bottom-left-x) / unit(@context-px-size), @unit);
+
+                @top-left-y-var: unit(unit(@top-left-y) / unit(@context-px-size), @unit);
+                @top-right-y-var: unit(unit(@top-right-y) / unit(@context-px-size), @unit);
+                @bottom-right-y-var: unit(unit(@bottom-right-y) / unit(@context-px-size), @unit);
+                @bottom-left-y-var: unit(unit(@bottom-left-y) / unit(@context-px-size), @unit);
+            }
+            .output-clockhand-var();
+
+            .output-x() {
+                @shorthand-x: @top-left-x-var ;
+            }
+            .output-x() when not (@top-left-x = @top-right-x){
+                @shorthand-x: @top-left-x-var @top-right-x-var;
+            }
+            .output-x() when not (@top-left-x = @bottom-right-x){
+                @shorthand-x: @top-left-x-var @top-right-x-var @bottom-right-x-var;
+            }
+            .output-x() when not (@top-right-x = @bottom-left-x){
+                @shorthand-x: @top-left-x-var @top-right-x-var @bottom-right-x-var @bottom-left-x-var;
+            }
+            .output-x();
+
+            .output-y() {
+                @shorthand-y: @top-left-y-var ;
+            }
+            .output-y() when not (@top-left-y = @top-right-y){
+                @shorthand-y: @top-left-y-var @top-right-y-var;
+            }
+            .output-y() when not (@top-left-y = @bottom-right-y){
+                @shorthand-y: @top-left-y-var @top-right-y-var @bottom-right-y-var;
+            }
+            .output-y() when not (@top-right-y = @bottom-left-y){
+                @shorthand-y: @top-left-y-var @top-right-y-var @bottom-right-y-var @bottom-left-y-var;
+            }
+            .output-y();
+
+            .output() when not (@use-autoprefixer) {
+                border-radius: @shorthand-x  ~'/' @shorthand-y;
+            }
+            .output() when (@use-autoprefixer) {
+                -webkit-border-radius: @shorthand-x  ~'/' @shorthand-y;
+                   -moz-border-radius: @shorthand-x  ~'/' @shorthand-y;
+                        border-radius: @shorthand-x  ~'/' @shorthand-y;
+            }
+            .output();
+        }
+        .reduce() when (default()) {
+
+            .output() when not (@top-left-x = _) and not (@top-left-y = _){
+                .output-var(@top-left-x; @top-left-y);
+
+                .merge() when (@x = @y){
+                    .border-top-left-radius-prefix(@x);
+                }
+                .merge() when not (@x = @y){
+                    .border-top-left-radius-prefix(@x @y);
+                }
+                .merge();
+            }
+            .output() when not (@top-right-x = _) and not (@top-right-y = _){
+                .output-var(@top-right-x; @top-right-y);
+
+                .merge() when (@x = @y){
+                    .border-top-right-radius-prefix(@x);
+                }
+                .merge() when not (@x = @y){
+                    .border-top-right-radius-prefix(@x @y);
+                }
+                .merge();
+            }
+            .output() when not (@bottom-right-x = _) and not (@bottom-right-y = _){
+                .output-var(@bottom-right-x; @bottom-right-y);
+
+                .merge() when (@x = @y){
+                    .border-bottom-right-radius-prefix(@x);
+                }
+                .merge() when not (@x = @y){
+                    .border-bottom-right-radius-prefix(@x @y);
+                }
+                .merge();
+            }
+            .output() when not (@bottom-left-x = _) and not (@bottom-left-y = _){
+                .output-var(@bottom-left-x; @bottom-left-y);
+
+                .merge() when (@x = @y){
+                    .border-bottom-left-radius-prefix(@x);
+                }
+                .merge() when not (@x = @y){
+                    .border-bottom-left-radius-prefix(@x @y);
+                }
+                .merge();
+            }
+            .output();
+        }
+        .reduce();
+    }
+    .map-xy();
+}
+
+.border-radius(@x: @default-border-radius; @y: @x) {
+    .clockhand-radius(@radius-x: @x; @radius-y: @y);
+}
+
+.border-radius-em(@x; @y: @x; @context-px-size: @default-border-radius) {
+    .clockhand-radius(@radius-x: @x; @radius-y: @y; @context-px-size; em);
+}
+
+.border-radius-rem(@x; @y: @x) {
+    .clockhand-radius(@radius-x: @x; @radius-y: @y; @context-px-size: @default-font-size; rem);
+}
+
+

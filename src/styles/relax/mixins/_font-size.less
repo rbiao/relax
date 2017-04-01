@@ -1,0 +1,21 @@
+//
+// .font-size-rem(14)
+// .font-size-em(14)
+// .font-size-em(14, 18)
+// .font-size-rem(14px)
+// .font-size-em(14px)
+// .font-size-em(14px, 18px)
+//
+// 用于辅助计算字体的em和rem值
+// https://github.com/clearleft/clearless/blob/master/mixins/typography.less
+
+.font-size-rem(@px-size) {
+    @rem-size: unit(@px-size / @default-font-size);
+    @px-size-no-unit: unit(@px-size);
+    font-size: ~"@{px-size-no-unit}px";
+    font-size: ~"@{rem-size}rem";
+}
+
+.font-size-em(@px-size; @context-px-size: @default-font-size) {
+    font-size: unit(@px-size / @context-px-size) * 1em;
+}

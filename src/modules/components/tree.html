@@ -1,0 +1,102 @@
+<div class="r-tree-container">
+    <div class="r-tree-main">
+
+<!--B 1 node -->
+<div class="r-tree is-expanded">
+    <div class="r-tree__content">
+        <i class="r-tree__icon-expand r-iconfont r-icon-caret-right"></i>
+        <label class="r-checkbox">
+            <input type="checkbox" name="tree1" class="r-checkbox__input">
+            <i class="r-checkbox__icon"></i>
+        </label>
+        <span class="r-tree__text">一级目录</span>
+    </div>
+    <!--B 2 node -->
+    <div class="r-tree__children">
+        <div class="r-tree is-expanded">
+            <div class="r-tree__content">
+                <i class="r-tree__icon-expand r-iconfont r-icon-caret-right"></i>
+                <span class="r-tree__text">二级目录</span>
+            </div>
+
+            <!-- B 3 node -->
+            <div class="r-tree__children">
+                <div class="r-tree">
+                    <div class="r-tree__content">
+                        <i class="r-tree__icon-expand r-iconfont r-icon-caret-right"></i>
+                        <span class="r-tree__text">三级目录</span>
+                    </div>
+                </div>
+                <div class="r-tree">
+                    <div class="r-tree__content">
+                        <i class="r-tree__icon-expand r-iconfont r-icon-caret-right"></i>
+                        <span class="r-tree__text">三级目录</span>
+                    </div>
+                </div>
+            </div>
+            <!-- E 3 node -->
+        </div>
+
+        <div class="r-tree">
+            <div class="r-tree__content">
+                <i class="r-tree__icon-expand r-iconfont r-icon-caret-right"></i>
+                <span class="r-tree__text">二级目录</span>
+            </div>
+        </div>
+    </div>
+    <!--E 2 node -->
+</div>
+
+<div class="r-tree">
+    <div class="r-tree__content">
+        <i class="r-tree__icon-expand r-iconfont r-icon-caret-right"></i>
+        <span class="r-tree__text">一级目录</span>
+    </div>
+    <!--B 2 node -->
+    <div class="r-tree__children">
+        <div class="r-tree">
+            <div class="r-tree__content">
+                <i class="r-tree__icon-expand r-iconfont r-icon-caret-right"></i>
+                <span class="r-tree__text">二级目录</span>
+            </div>
+
+            <!-- B 3 node -->
+            <div class="r-tree__children">
+                <div class="r-tree">
+                    <div class="r-tree__content">
+                        <i class="r-tree__icon-expand r-iconfont r-icon-caret-right"></i>
+                        <span class="r-tree__text">三级目录</span>
+                    </div>
+                </div>
+                <div class="r-tree">
+                    <div class="r-tree__content">
+                        <i class="r-tree__icon-expand r-iconfont r-icon-caret-right"></i>
+                        <span class="r-tree__text">三级目录</span>
+                    </div>
+                </div>
+            </div>
+            <!-- E 3 node -->
+        </div>
+
+        <div class="r-tree">
+            <div class="r-tree__content">
+                <i class="r-tree__icon-expand r-iconfont r-icon-caret-right"></i>
+                <span class="r-tree__text">二级目录</span>
+            </div>
+        </div>
+    </div>
+    <!--E 2 node -->
+</div>
+<!--E 1 node -->
+
+    </div>
+</div>
+
+<script>
+$(function(){
+    $(document).on('click', '.r-tree__content', function(e) {
+        var currentTarget = e.currentTarget;
+        $(currentTarget).parent('.r-tree').toggleClass('is-expanded');
+    });
+})
+</script>
