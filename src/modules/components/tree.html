@@ -96,7 +96,7 @@
 $(function(){
     $(document).on('click', '.r-tree__content', function(e) {
         var currentTarget = e.currentTarget;
-        $(currentTarget).parent('.r-tree').toggleClass('is-expanded');
+        $(currentTarget).parent('.r-tree').toggleClass('is-expanded').siblings().removeClass('is-expanded');
     });
 })
 </script>

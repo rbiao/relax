@@ -27,14 +27,13 @@
         content:'',
         btn: ['确认', '取消'],
         offset: true,
-        time: 3000,
+        time: 0,
         zindex: null
     }
 
     // 容器
     Class.prototype.vessel = function (callback) {
-        var that = this,
-            config = this.config,
+        var config = this.config,
             zindex = config.zindex,
             times = ++modal.index;
 
@@ -50,8 +49,8 @@
                             config.content +
                         '</div>' +
                         '<div class="modal__footer">' +
-                            '<button type="button" class="r-btn r-btn_secondary">Close</button> ' +
-                            '<button type="button" class="r-btn r-btn_primary">Save changes</button>' +
+                            '<button type="button" class="r-btn r-btn_secondary" id="modalBtn1">' + config.btn[1] + '</button> ' +
+                            '<button type="button" class="r-btn r-btn_primary" id="modalBtn0">' + config.btn[0] + '</button>' +
                         '</div>' +
                     '</div>' +
                 '</div>' +
@@ -82,17 +81,22 @@
 
         })
 
-        this.modalFlag = '#' + doms.modal + modal.index;
-        console.log(this.modalFlag);
+        this.modalID = '#' + doms.modal + modal.index;
+        console.log(this.modalID);
+
+
+        config.time <= 0 || setTimeout(function () {
+            modal.close(modal.index);
+        }, config.time)
 
         this.offset();
-        this.close();
+        this.callback();
     }
 
     // 计算容器位置
     Class.prototype.offset = function () {
         var config = this.config,
-            $modalDialog = $(this.modalFlag),
+            $modalDialog = $(this.modalID),
             area = {
                 width: $modalDialog.width(),
                 height: $modalDialog.height()
@@ -107,26 +111,39 @@
         });
     }
 
-    // callback
-    Class.prototype.close = function () {
+    // 关闭弹出框
+    Class.prototype.callback = function () {
         var that = this,
-            $modal = $(this.modalFlag);
+            config = this.config,
+            $modalID = $(this.modalID);
+            console.log(modal.index);
         $(doms.modalClose).on('click', function() {
-            $modal.removeClass('bounceIn').addClass('bounceOut').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
-                modal.close();
-            });
+            modal.close(modal.index);
+        });
+
+        $('#modalBtn0').on('click', function(index) {
+            config.yes(modal.index);
+            return this;
         });
     }
 
     var modal = {
         index: 0,
 
-        confirm : function (content) {
+        confirm : function (content, options, yes, cancel) {
+            var type = typeof options === 'function';
+            if (type) {
+                yes = options;
+                cancel = yes;
+            }
             return modal.open(
                 $.extend({
                     modalType:'confirm',
+                    time: 0,
+                    yes: yes,
+                    cancel: cancel,
                     content: content
-                })
+                }, type ? {} : options)
             );
         },
         msg : function (icon, content) {
@@ -134,12 +151,17 @@
                 $.extend({
                     modalType: 'msg',
                     icon: icon,
+                    time: 3000,
                     content: content
                 })
             )
         },
-        close: function () {
-            $(doms.modal).remove();
+        close: function (index) {
+            var $modalID = $('#' + doms.modal + index);
+
+            $modalID.removeClass('bounceIn').addClass('bounceOut').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+                $(this).remove();
+            });
         }
     }
 
@@ -160,7 +182,9 @@
 })(window, jQuery)
 
 $('#defaultModal').click(function(event) {
-    modal.confirm('第一个测试内容1');
+    modal.confirm('第一个测试内容1', function (index) {
+        alert(index);
+    });
 });
 
 $(document).on('click', '#defaultMsg', function(event) {
