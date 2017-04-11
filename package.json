@@ -4,7 +4,8 @@
   "description": " less",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "d": "gulp -d",
+    "p": "gulp -p"
   },
   "author": "",
   "license": "ISC",
@@ -21,9 +22,12 @@
     "gulp-rename": "^1.2.2",
     "gulp-sequence": "^0.4.6",
     "gulp.spritesmith": "^6.3.0",
+    "lodash": "^4.17.4",
     "merge-stream": "^1.0.1",
+    "path": "^0.12.7",
     "sprity-less": "^1.0.3",
-    "vinyl-buffer": "^1.0.0"
+    "vinyl-buffer": "^1.0.0",
+    "yargs": "^7.0.2"
   },
   "dependencies": {
     "sprity": "^1.0.8"

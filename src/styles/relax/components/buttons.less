@@ -1,54 +1,57 @@
 // Base styles
 
 .r-btn {
-  display: inline-block;
-  font-weight: @btn-font-weight;
-  line-height: @btn-line-height;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  cursor: pointer;
-  user-select: none;
-  border: @btn-border-width solid transparent;
-  .button-size(@btn-padding-y, @btn-padding-x, @font-size-base, @btn-border-radius);
-  transition: all .2s ease-in-out;
+    display: inline-block;
 
-  &,
-  &:active,
-  &.active {
-    &:focus,
-    &.focus {
-      .reset-focus;
+    border: @btn-border-width solid transparent;
+
+    font-weight: @btn-font-weight;
+    line-height: @btn-line-height;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+
+    transition: all .2s ease-in-out;
+
+    cursor: pointer;
+    user-select: none;
+
+    .button-size(@btn-padding-y, @btn-padding-x, @font-size-base, @btn-border-radius);
+    &,
+    &:active,
+    &.active {
+        &:focus,
+        &.focus {
+            .reset-focus;
+        }
     }
-  }
+    &:hover,
+    &:focus {
+        text-decoration: none;
+    }
+    &.focus {
+        text-decoration: none;
+    }
+    &:active,
+    &.active {
+        background-image: none;
 
-  &:hover,
-  &:focus {
-    text-decoration: none;
-  }
-  &.focus {
-    text-decoration: none;
-  }
+        outline: 0;
+        box-shadow: @btn-active-box-shadow;
+    }
+    &.disabled,
+    &:disabled {
+        opacity: .65;
+        box-shadow: none;
 
-  &:active,
-  &.active {
-    background-image: none;
-    outline: 0;
-    box-shadow: @btn-active-box-shadow;
-  }
-
-  &.disabled,
-  &:disabled {
-    cursor: @cursor-disabled;
-    opacity: .65;
-    box-shadow: none;
-  }
+        cursor: @cursor-disabled;
+    }
 }
 
 // Future-proof disabling of clicks on `<a>` elements
 a.r-btn.disabled,
 fieldset[disabled] a.btn {
-  pointer-events: none;
+    pointer-events: none;
 }
 
 
@@ -57,42 +60,42 @@ fieldset[disabled] a.btn {
 //
 
 .r-btn_primary {
-  .button-variant(@btn-primary-color, @btn-primary-bg, @btn-primary-border);
+    .button-variant(@btn-primary-color, @btn-primary-bg, @btn-primary-border);
 }
 .r-btn_secondary {
-  .button-variant(@btn-secondary-color, @btn-secondary-bg, @btn-secondary-border);
+    .button-variant(@btn-secondary-color, @btn-secondary-bg, @btn-secondary-border);
 }
 .r-btn_info {
-  .button-variant(@btn-info-color, @btn-info-bg, @btn-info-border);
+    .button-variant(@btn-info-color, @btn-info-bg, @btn-info-border);
 }
 .r-btn_success {
-  .button-variant(@btn-success-color, @btn-success-bg, @btn-success-border);
+    .button-variant(@btn-success-color, @btn-success-bg, @btn-success-border);
 }
 .r-btn_warning {
-  .button-variant(@btn-warning-color, @btn-warning-bg, @btn-warning-border);
+    .button-variant(@btn-warning-color, @btn-warning-bg, @btn-warning-border);
 }
 .r-btn_danger {
-  .button-variant(@btn-danger-color, @btn-danger-bg, @btn-danger-border);
+    .button-variant(@btn-danger-color, @btn-danger-bg, @btn-danger-border);
 }
 
 // Remove all backgrounds
 .r-btn_outline-primary {
-  .button-outline-variant(@btn-primary-bg);
+    .button-outline-variant(@btn-primary-bg);
 }
 .r-btn_outline-secondary {
-  .button-outline-variant(@btn-secondary-border);
+    .button-outline-variant(@btn-secondary-border);
 }
 .r-btn_outline-info {
-  .button-outline-variant(@btn-info-bg);
+    .button-outline-variant(@btn-info-bg);
 }
 .r-btn_outline-success {
-  .button-outline-variant(@btn-success-bg);
+    .button-outline-variant(@btn-success-bg);
 }
 .r-btn_outline-warning {
-  .button-outline-variant(@btn-warning-bg);
+    .button-outline-variant(@btn-warning-bg);
 }
 .r-btn_outline-danger {
-  .button-outline-variant(@btn-danger-bg);
+    .button-outline-variant(@btn-danger-bg);
 }
 
 
@@ -102,39 +105,42 @@ fieldset[disabled] a.btn {
 
 // Make a button look and behave like a link
 .r-btn_link {
-  font-weight: 400;
-  color: @link-color;
-  border-radius: 0;
+    border-radius: 0;
 
-  &,
-  &:active,
-  &.active,
-  &:disabled {
-    background-color: transparent;
-    box-shadow:none;
-  }
-  &,
-  &:focus,
-  &:active {
-    border-color: transparent;
-  }
-  &:hover {
-    border-color: transparent;
-  }
+    font-weight: 400;
 
-  &:hover,
-  &:focus {
-    color: @link-hover-color;
-    text-decoration: @link-hover-decoration;
-    background-color: transparent;
-  }
-  &:disabled {
+    color: @link-color;
+    &,
+    &:active,
+    &.active,
+    &:disabled {
+        background-color: transparent;
+
+        box-shadow: none;
+    }
+    &,
+    &:focus,
+    &:active {
+        border-color: transparent;
+    }
+    &:hover {
+        border-color: transparent;
+    }
     &:hover,
     &:focus {
-      color: @btn-link-disabled-color;
-      text-decoration: none;
+        text-decoration: @link-hover-decoration;
+
+        color: @link-hover-color;
+        background-color: transparent;
     }
-  }
+    &:disabled {
+        &:hover,
+        &:focus {
+            text-decoration: none;
+
+            color: @btn-link-disabled-color;
+        }
+    }
 }
 
 
@@ -143,12 +149,12 @@ fieldset[disabled] a.btn {
 //
 
 .r-btn_lg {
-  // line-height: ensure even-numbered height of button next to large input
-  .button-size(@btn-padding-y-lg, @btn-padding-x-lg, @font-size-lg, @btn-border-radius-lg);
+    // line-height: ensure even-numbered height of button next to large input
+    .button-size(@btn-padding-y-lg, @btn-padding-x-lg, @font-size-lg, @btn-border-radius-lg);
 }
 .r-btn_sm {
-  // line-height: ensure proper height of button next to small input
-  .button-size(@btn-padding-y-sm, @btn-padding-x-sm, @font-size-sm, @btn-border-radius-sm);
+    // line-height: ensure proper height of button next to small input
+    .button-size(@btn-padding-y-sm, @btn-padding-x-sm, @font-size-sm, @btn-border-radius-sm);
 }
 
 
@@ -157,20 +163,21 @@ fieldset[disabled] a.btn {
 //
 
 .r-btn_block {
-  display: block;
-  width: 100%;
+    display: block;
+
+    width: 100%;
 }
 
 // Vertically space out multiple block buttons
 .r-btn_block + .r-btn_block {
-  margin-top: @btn-block-spacing-y;
+    margin-top: @btn-block-spacing-y;
 }
 
 // Specificity overrides
 input[type="submit"],
 input[type="reset"],
 input[type="button"] {
-  &.r-btn_block {
-    width: 100%;
-  }
+    &.r-btn_block {
+        width: 100%;
+    }
 }

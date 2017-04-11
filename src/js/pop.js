@@ -5,7 +5,6 @@
         ready = {};
 
     var Class = function (settings) {
-        var that = this;
         this.config = $.extend({}, this.config, settings);
         this.create();
     }
@@ -24,7 +23,7 @@
         modalType: '',                                       // alert, confirm, loading, msg
         icon: 'success',                                     // success, danger, warning
         title: '默认标题',
-        content:'',
+        content: '',
         btn: ['确认', '取消'],
         offset: true,
         time: 0,
@@ -181,7 +180,7 @@
 
 })(window, jQuery)
 
-$('#defaultModal').click(function(event) {
+$('#defaultModal').click(function() {
     modal.confirm('第一个测试内容1', function (index) {
         alert(index);
     });
