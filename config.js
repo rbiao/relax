@@ -1,4 +1,7 @@
 module.exports = {
+    globals: {
+        __ENV__: true
+    },
     env: true, //默认true。 true为开发环境，false为生产环境。
     src: {
         images: './src/images/*.*',

@@ -9,6 +9,12 @@
     <div class="aside-nav">
         <dl>
             <dt>基础组件</dt>
+            @@if (__ENV__) {
+            <dd><a href="#Buttons">生产环境不会出现</a></dd>
+            }
+            <script>
+                console.log('env: ' + __ENV__);
+            </script>
             <dd class="aside-nav_classify">Basic</dd>
             <dd><a href="#Buttons">Buttons 按钮</a></dd>
             <dd><a href="#Checkbox">Checkbox 多选框</a></dd>

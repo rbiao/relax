@@ -9,21 +9,34 @@ var gulp = require('gulp'),
     fileinclude = require('gulp-file-include'),// 模版复用
     browserSync = require('browser-sync'),     // 浏览器同步测试 http://www.browsersync.cn/
     spritesmith = require('gulp.spritesmith'), // 雪碧图 https://github.com/twolfson/gulp.spritesmith
-    gulpif = require('gulp-if'),               // if判断
+    gulpif = require('gulp-if'),               // 在管道中使用if判断
+    replace = require('gulp-replace'),         // https://www.npmjs.com/package/gulp-replace
     buffer = require('vinyl-buffer'),
     merge = require('merge-stream'),
     reload = browserSync.reload,
 
-    argv = require('yargs').argv,
+    argv = require('yargs').argv,              // https://www.npmjs.com/package/yargs
     // _ = require('lodash'),
     path = require('path'),
 
     htmlmin = require('gulp-htmlmin'),         // 压缩html和页面的css、javascript
     cleanCSS = require('gulp-clean-css'),      // 压缩css https://github.com/scniro/gulp-clean-css
     uglify = require('gulp-uglify'),           // 压缩js
-    imagemin = require('gulp-imagemin'),           // 压缩image
+    imagemin = require('gulp-imagemin'),       // 压缩image
 
     config = require('./config.js');
+
+var util = {
+    replaceGlobalVar: function() {
+        return replace(/(__\w+__)/g, function($1) {
+            var value = config.globals[$1];
+            if (value !== undefined) {
+                return value;
+            }
+            return $1;
+        })
+    }
+}
 
 var gulpFun = {
     /* html 打包 */
@@ -44,6 +57,7 @@ var gulpFun = {
         };
 
         gulp.src(src)
+            .pipe(util.replaceGlobalVar())
             .pipe(rename({
                 dirname: ''
             }))
@@ -116,7 +130,7 @@ var gulpFun = {
     delete: function(cb){
         var dirPath = config.env ? config.develop.dirPath : config.production.dirPath;
         return del([dirPath], cb);
-    }
+    },
 
     /* md5打包 */
     buildMd5: function() {
@@ -139,7 +153,7 @@ var gulpFun = {
         gulp.watch('./src/styles/**/*.*', ['build:styles']).on('change', reload);
         gulp.watch('./src/modules/**/*.html', ['build:html']).on('change', reload);
         gulp.watch('./src/js/**/*.js', ['build:js']).on('change', reload);
-    },
+    }
 };
 
 // 编译html
@@ -160,13 +174,13 @@ gulp.task('build:js', function() {
     gulpFun.buildJs(config.src.js, dest, config.env);
 });
 
-//编译images
+// 编译images
 gulp.task('build:images', function() {
     var dest = config.env ? config.develop.output.images : config.production.output.images;
     gulpFun.buildImage(config.src.images, dest, config.env);
 });
 
-//编译fonts
+// 编译fonts
 gulp.task('build:fonts', function() {
     // gulp.src(config.dev.fonts)
     //     .pipe(gulp.dest(config.output.fonts));
@@ -174,7 +188,6 @@ gulp.task('build:fonts', function() {
 
 // 删除文件
 gulp.task('del:dist', function(cb) {
-    // return del(['dist/**'], cb);
     return gulpFun.delete(cb);
 });
 
@@ -186,17 +199,17 @@ gulp.task('develop', function(cb) {
 // 服务器 - 生产环境
 gulp.task('production', function(cb){
     config.env = false;
+    config.globals.__ENV__ = false;
     gulpFun.server(config.env, cb);
 });
 
 // 说明
 gulp.task('help', function() {
-    console.log('   gulp build          文件打包');
-    console.log('   gulp watch          文件监控打包');
+    // console.log('   gulp build          文件打包');
+    // console.log('   gulp watch          文件监控打包');
+    // console.log('   gulp server         测试server');
+    // console.log('   gulp -m <module>    部分模块打包（默认全部打包）');
     console.log('   gulp help           gulp参数说明');
-    console.log('   gulp server         测试server');
     console.log('   gulp production     生产环境');
     console.log('   gulp develop        开发环境（默认开发环境）');
-    console.log('   gulp -m <module>    部分模块打包（默认全部打包）');
-    console.log(config.env);
 });
