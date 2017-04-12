@@ -1,36 +1,47 @@
 'use strict';
 
 var gulp = require('gulp'),
-    less = require('gulp-less'), // 编译less
-    plumber = require('gulp-plumber'), // 监听代码出错时不中断执行
-    del = require('del'), // 删除文件
-    rename = require('gulp-rename'), // 重命名
-    cleanCSS = require('gulp-clean-css'), // 压缩css https://github.com/scniro/gulp-clean-css
-    runSequence = require('gulp-sequence'), // 让任务按顺序执行，因为gulp任务执行是异步的，所以需要gulp-sequence。
-    fileinclude = require('gulp-file-include'), // 模版复用
-    browserSync = require('browser-sync'), // 浏览器同步测试 http://www.browsersync.cn/
+    less = require('gulp-less'),               // 编译less
+    plumber = require('gulp-plumber'),         // 监听代码出错时不中断执行
+    del = require('del'),                      // 删除文件
+    rename = require('gulp-rename'),           // 重命名
+    runSequence = require('gulp-sequence'),    // 让任务按顺序执行，因为gulp任务执行是异步的，所以需要gulp-sequence。
+    fileinclude = require('gulp-file-include'),// 模版复用
+    browserSync = require('browser-sync'),     // 浏览器同步测试 http://www.browsersync.cn/
     spritesmith = require('gulp.spritesmith'), // 雪碧图 https://github.com/twolfson/gulp.spritesmith
-    gulpif = require('gulp-if'), // if判断
+    gulpif = require('gulp-if'),               // if判断
     buffer = require('vinyl-buffer'),
     merge = require('merge-stream'),
     reload = browserSync.reload,
 
     argv = require('yargs').argv,
-    _ = require('lodash'),
+    // _ = require('lodash'),
     path = require('path'),
 
-    config = require('./config.json');
+    htmlmin = require('gulp-htmlmin'),         // 压缩html和页面的css、javascript
+    cleanCSS = require('gulp-clean-css'),      // 压缩css https://github.com/scniro/gulp-clean-css
+    uglify = require('gulp-uglify'),           // 压缩js
+    imagemin = require('gulp-imagemin'),           // 压缩image
 
-
-
-argv.a = 10;
+    config = require('./config.js');
 
 var gulpFun = {
     /* html 打包 */
     buildHtml: function() {
         var src = arguments[0],
             dest = arguments[1],
-            flag = arguments[2];
+            env = arguments[2]; // true为开发环境，false为生产环境。
+
+        var options = {
+            removeComments: true,               // 清除HTML注释
+            collapseWhitespace: true,           // 压缩HTML
+            collapseBooleanAttributes: true,    // 省略布尔属性的值 <input checked="true"/> ==> <input />
+            removeEmptyAttributes: true,        // 删除所有空值属性 <input id="" /> ==> <input />
+            removeScriptTypeAttributes: true,   // 删除<script>的type="text/javascript"
+            removeStyleLinkTypeAttributes: true,// 删除<style>和<link>的type="text/css"
+            minifyJS: true,                     // 压缩页面JS
+            minifyCSS: true                     // 压缩页面CSS
+        };
 
         gulp.src(src)
             .pipe(rename({
@@ -40,6 +51,7 @@ var gulpFun = {
                 prefix: '@@',
                 basepath: '@file'
             }))
+            .pipe(gulpif(!env, htmlmin(options)))
             .pipe(gulp.dest(dest));
     },
 
@@ -47,112 +59,135 @@ var gulpFun = {
     buildStyle: function() {
         var src = arguments[0],
             dest = arguments[1],
-            flag = arguments[2];
+            env = arguments[2];
 
         gulp.src(src)
             .pipe(less())
             .pipe(plumber())
-            .pipe(gulp.dest(dest))
-            .pipe(cleanCSS())
-            .pipe(rename(function(path) {
-                path.basename += '.min';
-            }))
+            .pipe(gulpif(!env, cleanCSS()))
             .pipe(gulp.dest(dest));
     },
 
-    /* js打包 */
+    /* js 打包 */
     buildJs: function() {
         var src = arguments[0],
             dest = arguments[1],
-            flag = arguments[2];
+            env = arguments[2];
 
         gulp.src(src)
+            // .pipe(gulpif(!env, uglify()))  //es6语法报错。先用webpack打包再压缩。
             .pipe(gulp.dest(dest));
     },
 
     /* img打包 */
-    buildImg: function() {
+    buildImage: function() {
+        var src = arguments[0],
+            dest = arguments[1],
+            env = arguments[2];
+
         // 拷贝图片
-        gulp.src(config.dev.images)
-            .pipe(gulp.dest(config.output.images));
+        gulp.src(src)
+            .pipe(gulpif(!env, imagemin()))
+            .pipe(gulp.dest(dest));
 
         // 雪碧图
-        var spriteData = gulp.src('./src/images/slice/*.png').pipe(spritesmith({
+        var spriteData = gulp.src(config.src.imagesSprite).pipe(spritesmith({
             // cssTemplate: 'handlebarsInheritance.scss.handlebars',
-            imgPath: '../images/sprite.png', // css中引用的雪碧图
-            cssFormat: 'less', // 输出文件类型sass，less，css，json
-            imgName: 'sprite.png', // 输出图片名
-            cssName: 'sprite.less' // 输出样式名
+            imgPath: '../images/sprite.png',// css中引用的雪碧图
+            cssFormat: 'less',              // 输出文件类型sass，less，css，json
+            imgName: 'sprite.png',          // 输出图片名
+            cssName: 'sprite.less'          // 输出样式名
         }));
         var imgStream = spriteData.img
             .pipe(buffer())
-            // .pipe(imagemin())
-            .pipe(gulp.dest(config.output.images)); //图片输出路径
+            .pipe(gulpif(!env, imagemin()))
+            .pipe(gulp.dest(dest)); // 图片输出路径
 
         // Pipe CSS stream through CSS optimizer and onto disk
         var cssStream = spriteData.css
             // .pipe(csso())
-            .pipe(gulp.dest(config.output.styles)); // 样式输出路径
+            .pipe(gulp.dest('./src/styles/')); // 样式输出路径
 
         // Return a merged stream to handle both `end` events
         return merge(imgStream, cssStream);
     },
 
+    /* delete */
+    delete: function(cb){
+        var dirPath = config.env ? config.develop.dirPath : config.production.dirPath;
+        return del([dirPath], cb);
+    }
+
     /* md5打包 */
-    buildMd5: function() {}
+    buildMd5: function() {
+
+    },
+
+    /* server */
+    server: function(env, cb) {
+        var baseDir = env ? config.develop.dirPath : config.production.dirPath;
+        browserSync({
+            server: {
+                // index: 'modules/buttons.html',
+                baseDir: baseDir
+            },
+            port: 9999,
+            // browser: ["chrome", "firefox"],
+            startPath: 'modules/index.html'
+        });
+        runSequence('del:dist', 'build:images', 'build:styles', ['build:html', 'build:js', 'build:fonts'], cb);
+        gulp.watch('./src/styles/**/*.*', ['build:styles']).on('change', reload);
+        gulp.watch('./src/modules/**/*.html', ['build:html']).on('change', reload);
+        gulp.watch('./src/js/**/*.js', ['build:js']).on('change', reload);
+    },
 };
 
 // 编译html
 gulp.task('build:html', function() {
-    gulpFun.buildHtml(config.dev.pages, config.output.pages);
+    var dest = config.env ? config.develop.output.pages : config.production.output.pages;
+    gulpFun.buildHtml(config.src.pages, dest, config.env);
 });
 
 // 编译less
 gulp.task('build:styles', function() {
-    gulpFun.buildStyle(config.dev.styles, config.output.styles);
+    var dest = config.env ? config.develop.output.styles : config.production.output.styles;
+    gulpFun.buildStyle(config.src.styles, dest, config.env);
 });
 
 // 编译js
 gulp.task('build:js', function() {
-    gulpFun.buildJs(config.dev.js, config.output.js);
+    var dest = config.env ? config.develop.output.js : config.production.output.js;
+    gulpFun.buildJs(config.src.js, dest, config.env);
 });
 
 //编译images
 gulp.task('build:images', function() {
-    gulpFun.buildImg();
+    var dest = config.env ? config.develop.output.images : config.production.output.images;
+    gulpFun.buildImage(config.src.images, dest, config.env);
 });
 
 //编译fonts
 gulp.task('build:fonts', function() {
-    gulp.src(config.dev.fonts)
-        .pipe(gulp.dest(config.output.fonts));
+    // gulp.src(config.dev.fonts)
+    //     .pipe(gulp.dest(config.output.fonts));
 });
 
 // 删除文件
 gulp.task('del:dist', function(cb) {
-    return del(['dist/**'], cb);
+    // return del(['dist/**'], cb);
+    return gulpFun.delete(cb);
 });
 
-// 服务器
-gulp.task('server', function(cb) {
-    browserSync({
-        server: {
-            // index: 'modules/buttons.html',
-            baseDir: './dist'
-        },
-        port: 9999,
-        // browser: ["chrome", "firefox"],
-        startPath: 'modules/index.html'
-    });
-    runSequence('del:dist', 'build:styles', ['build:html', 'build:images', 'build:js', 'build:fonts'], cb);
+// 服务器 - 开发环境
+gulp.task('develop', function(cb) {
+    gulpFun.server(config.env, cb);
 });
 
-gulp.task('default', ['server'], function() {
-    gulp.watch('./src/styles/**/*.*', ['build:styles']).on('change', reload);
-    gulp.watch('./src/modules/**/*.html', ['build:html']).on('change', reload);
-    gulp.watch('./src/js/**/*.js', ['build:js']).on('change', reload);
+// 服务器 - 生产环境
+gulp.task('production', function(cb){
+    config.env = false;
+    gulpFun.server(config.env, cb);
 });
-
 
 // 说明
 gulp.task('help', function() {
@@ -160,7 +195,8 @@ gulp.task('help', function() {
     console.log('   gulp watch          文件监控打包');
     console.log('   gulp help           gulp参数说明');
     console.log('   gulp server         测试server');
-    console.log('   gulp -p             生产环境（默认生产环境）');
-    console.log('   gulp -d             开发环境');
+    console.log('   gulp production     生产环境');
+    console.log('   gulp develop        开发环境（默认开发环境）');
     console.log('   gulp -m <module>    部分模块打包（默认全部打包）');
+    console.log(config.env);
 });

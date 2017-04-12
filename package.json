@@ -1,12 +1,9 @@
 {
-  "name": "biu",
+  "name": "relax",
   "version": "1.0.0",
-  "description": " less",
+  "description": " relax ui",
   "main": "gulpfile.js",
-  "scripts": {
-    "d": "gulp -d",
-    "p": "gulp -p"
-  },
+  "scripts": {},
   "author": "",
   "license": "ISC",
   "devDependencies": {
@@ -16,11 +13,14 @@
     "gulp-clean-css": "^3.0.3",
     "gulp-css-spritesmith": "^0.0.5",
     "gulp-file-include": "^0.13.7",
+    "gulp-htmlmin": "^3.0.0",
     "gulp-if": "^2.0.2",
+    "gulp-imagemin": "^3.2.0",
     "gulp-less": "^3.3.0",
     "gulp-plumber": "^1.1.0",
     "gulp-rename": "^1.2.2",
     "gulp-sequence": "^0.4.6",
+    "gulp-uglify": "^2.1.2",
     "gulp.spritesmith": "^6.3.0",
     "lodash": "^4.17.4",
     "merge-stream": "^1.0.1",
