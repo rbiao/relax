@@ -8,13 +8,13 @@
 <body>
     <div class="aside-nav">
         <dl>
+            <dt>Mixins混合</dt>
+            <dd><a href="#Buttons">Buttons 按钮</a></dd>
+            <dd><a href="#Size">Size Mixins</a></dd>
             <dt>基础组件</dt>
             @@if (__ENV__) {
             <dd><a href="#Buttons">生产环境不会出现</a></dd>
             }
-            <script>
-                console.log('env: ' + __ENV__);
-            </script>
             <dd class="aside-nav_classify">Basic</dd>
             <dd><a href="#Buttons">Buttons 按钮</a></dd>
             <dd><a href="#Checkbox">Checkbox 多选框</a></dd>
@@ -29,6 +29,32 @@
         </dl>
     </div>
     <div class="main">
+        <!-- name -->
+        <div class="example" id="Size">
+            <div class="example__header">
+                <div class="example__title-primary">.size() mixin</div>
+            </div>
+            <div class="example__body">
+                <p class="float-left test-size-1 test-rgba-background-1 test-border-radius">test-size-1</p>
+                <p class="float-left test-size-2 test-rgba-background-2">test-size-2</p>
+                <p class="float-left test-size-3 test-opacity test-force-wrap">test-size-3文字很长文字很长文字很长文字很长文字很长文字很长文字很长aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                <p class="float-left test-size-4 test-ellipsis-1">test-size-4文字很长文字很长文字很长文字很长文字很长文字很长文字很长</p>
+                <p class="float-left test-size-5 test-ellipsis-2">test-size-5文字很长文字很长文字很长文字很长文字很长文字很长文字很长文字很长文字很长文字很长2</p>
+                <p class="float-left test-size-6 test-circle-1">test-size-6</p>
+                <p class="float-left test-size-7 test-circle-2">test-size-7</p>
+                <p class="float-left test-size-8">test-size-8</p>
+                <p class="float-left test-size-9">test-size-9</p>
+                <p class="float-left test-size-10">test-size-10</p>
+                <p class="float-left test-size-11">test-size-11</p>
+                <p class="float-left test-size-12">test-size-12</p>
+                <p class="float-left test-size-13">test-size-13</p>
+                <p class="float-left test-size-14">test-size-14</p>
+                <p class="float-left test-size-15 test-rgba-background-2 test-absolute"></div>test-size-15</p>
+                <div class="test-circle-3">
+                <div class="test-triangle-1"></div>
+            </div>
+        </div>
+
         <!-- name -->
         <div class="example">
             <div class="example__header">
@@ -122,8 +148,5 @@
         </div>
     </div>
     @@include('layout/bottom.html')
-<script>
-
-</script>
 </body>
 </html>

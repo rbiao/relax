@@ -1,0 +1,12 @@
+// Opacity
+// In IE9, when `opacity` is set, alpha filter will be ignored
+.opacity(@opacity: 100%) {
+    opacity: unit(@opacity) / 100;
+}
+.opacity(@opacity: 100%) when (@support-ie-version < 9) {
+    @op: unit(@opacity);
+    filter: ~"alpha(opacity=@{op})";
+    :root & {
+        filter: none;/* IE9+不显示filter */
+    }
+}

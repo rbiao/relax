@@ -1,0 +1,159 @@
+// 测试.size() mixin
+.test-size-1 {
+    .size(200px);
+}
+.test-size-2 {
+    .size(200px; true);
+}
+.test-size-3 {
+    .size(200px; true; true);
+}
+.test-size-4 {
+    .size(200px; 100px);
+}
+.test-size-5 {
+    .size(200px; 100px; true);
+}
+.test-size-6 {
+    .size(200px _);
+}
+.test-size-7 {
+    .size(200px _; 100px);
+}
+.test-size-8 {
+    .size(200px _; 100px; true);
+}
+.test-size-9 {
+    .size(_ 200px);
+}
+.test-size-10 {
+    .size(_ 200px; true);
+}
+.test-size-11 {
+    .size(_ 200px; true; true);
+}
+.test-size-12 {
+    .size(_ 200px; 100px);
+}
+.test-size-13 {
+    .size(_ 200px; 100px; true);
+}
+.test-size-14 {
+    .size(_; 100px);
+}
+.test-size-15 {
+    .size(_; 100px; true);
+}
+
+// 测试.rgba-background() mixin
+
+.test-rgba-background-1{
+    .rgba-background(#000; 50%);
+}
+.test-rgba-background-2{
+    .rgba-background(rgba(0,0,0,.1));
+}
+
+// 测试.opacity() mixin
+.test-opacity {
+    .opacity(20%);
+}
+
+// 测试.force-wrap() mixin
+.test-force-wrap {
+    .force-wrap;
+}
+
+// 测试.ellipsis() mixin
+.test-ellipsis-1 {
+    .ellipsis;
+}
+.test-ellipsis-2 {
+    .ellipsis(3); // 指定参数（行数）的功能只支持WebKit。
+}
+
+// 测试.shapes() mixin
+.test-circle-1 {
+    .circle(200px; #ddd);
+}
+.test-circle-2 {
+    .circle(200px; url(https://dummyimage.com/600x400/d13ad1/fff&text=image));
+}
+
+.test-circle-3 {
+    .circle(50%; url(https://dummyimage.com/600x400/d13ad1/fff&text=image));
+}
+
+.test-triangle-1 {
+    .triangle(bottom; 100px; @brand-primary;)
+}
+
+// 测试.border-radius() mixin
+.test-border-radius {
+    // .border-radius(10px);
+    // .border-radius(10px 20px);
+    // .border-radius(_ 20px);
+    // .border-radius(10px _);
+
+    // .border-radius(10px 20px 30px);
+    // .border-radius(_ 20px 30px);
+    // .border-radius(10px _ 30px);
+    // .border-radius(10px 20px _);
+    // .border-radius(_ _ 30px);
+    // .border-radius(10px _ _);
+    // .border-radius(_ 20px _);
+
+    // .border-radius(10px 20px 30px 40px);
+    // .border-radius(10px _ _ _);
+    // .border-radius(_ 20px _ _);
+    // .border-radius(_ _ 30px _);
+    // .border-radius(_ _ _ 40px);
+
+    // .border-radius(10px 20px _ _);
+    // .border-radius(10px _ _ 40px);
+    // .border-radius(_ _ 30px 40px);
+    // .border-radius(_ 20px 30px _);
+    // .border-radius(_ 20px _ 40px);
+    // .border-radius(10px _ 30px _);
+
+    // .border-radius(_ 20px 30px 40px);
+    // .border-radius(10px _ 30px 40px);
+    // .border-radius(10px 20px _ 40px);
+    // .border-radius(10px 20px 30px _);
+
+}
+
+// 测试clockhand文件中的mixins
+.test-absolute {
+    // .absolute();
+    // .absolute(10px);
+    // .absolute(10px 20px);
+    // .absolute(_ 20px);
+    // .absolute(10px _);
+
+    // .absolute(10px 20px 30px);
+    // .absolute(_ 20px 30px);
+    // .absolute(10px _ 30px);
+    // .absolute(10px 20px _);
+    // .absolute(_ _ 30px);
+    // .absolute(10px _ _);
+    // .absolute(_ 20px _);
+
+    // .absolute(10px 20px 30px 40px);
+    // .absolute(10px _ _ _);
+    // .absolute(_ 20px _ _);
+    // .absolute(_ _ 30px _);
+    // .absolute(_ _ _ 40px);
+
+    // .absolute(10px 20px _ _);
+    // .absolute(10px _ _ 40px);
+    // .absolute(_ _ 30px 40px);
+    // .absolute(_ 20px 30px _);
+    // .absolute(_ 20px _ 40px);
+    // .absolute(10px _ 30px _);
+
+    // .absolute(_ 20px 30px 40px);
+    // .absolute(10px _ 30px 40px);
+    // .absolute(10px 20px _ 40px);
+    // .absolute(10px 20px 30px _);
+}

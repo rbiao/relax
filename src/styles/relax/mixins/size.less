@@ -1,0 +1,50 @@
+// size settings
+.size(@size; @is-line-height: false; @is-input: false) {
+	@l: length(@size);
+
+	.map-size(1) {
+        @width: @size;
+        @height: @size;
+	}
+	.map-size(2) {
+		@width: extract(@size, 1);
+		@height: extract(@size, 2);
+	}
+	.map-size(@l);
+
+	// 行高
+	.set-line-height() {
+		// 行高 - 自定义
+		.line-height-var() when (isnumber(@is-line-height)) {
+	        @line-height: @is-line-height;
+		}
+		// 行高 - 等于高度
+		.line-height-var() when (@is-line-height = true) {
+			@line-height: @height;
+		}
+		.line-height-var();
+
+		// input元素设置行高
+		.output() when (@is-input = true) and (@support-ie-version < 9) {
+			line-height: ~"@{line-height}\0"; // IE8
+		}
+		// 非input元素设置行高
+		.output() when (@is-input = false) and not(@is-line-height = false) {
+			line-height: @line-height;
+		}
+		.output();
+	}
+
+	.output() when not (@width = _) {
+		width: @width;
+		.set-line-height();
+	}
+	.output() when not (@height = _) {
+		height: @height;
+		.set-line-height();
+	}
+	.output() when (@width = _) and (@height = _) {
+		.set-line-height();
+	}
+	.output();
+}

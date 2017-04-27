@@ -1,28 +1,29 @@
 'use strict';
 
 var gulp = require('gulp'),
-    less = require('gulp-less'),               // 编译less
-    plumber = require('gulp-plumber'),         // 监听代码出错时不中断执行
-    del = require('del'),                      // 删除文件
-    rename = require('gulp-rename'),           // 重命名
-    runSequence = require('gulp-sequence'),    // 让任务按顺序执行，因为gulp任务执行是异步的，所以需要gulp-sequence。
-    fileinclude = require('gulp-file-include'),// 模版复用
-    browserSync = require('browser-sync'),     // 浏览器同步测试 http://www.browsersync.cn/
-    spritesmith = require('gulp.spritesmith'), // 雪碧图 https://github.com/twolfson/gulp.spritesmith
-    gulpif = require('gulp-if'),               // 在管道中使用if判断
-    replace = require('gulp-replace'),         // https://www.npmjs.com/package/gulp-replace
+    less = require('gulp-less'),                   // 编译less
+    plumber = require('gulp-plumber'),             // 监听代码出错时不中断执行
+    del = require('del'),                          // 删除文件
+    rename = require('gulp-rename'),               // 重命名
+    runSequence = require('gulp-sequence'),        // 让任务按顺序执行，因为gulp任务执行是异步的，所以需要gulp-sequence。
+    fileinclude = require('gulp-file-include'),    // 模版复用
+    browserSync = require('browser-sync').create(),// 浏览器同步测试 http://www.browsersync.cn/
+    reload = browserSync.reload,
+    spritesmith = require('gulp.spritesmith'),     // 雪碧图 https://github.com/twolfson/gulp.spritesmith
+    gulpif = require('gulp-if'),                   // 在管道中使用if判断
+    replace = require('gulp-replace'),             // https://www.npmjs.com/package/gulp-replace
     buffer = require('vinyl-buffer'),
     merge = require('merge-stream'),
-    reload = browserSync.reload,
+    colors = require('colors'),                    // log颜色
 
-    argv = require('yargs').argv,              // https://www.npmjs.com/package/yargs
+    argv = require('yargs').argv,                  // https://www.npmjs.com/package/yargs
     // _ = require('lodash'),
     path = require('path'),
 
-    htmlmin = require('gulp-htmlmin'),         // 压缩html和页面的css、javascript
-    cleanCSS = require('gulp-clean-css'),      // 压缩css https://github.com/scniro/gulp-clean-css
-    uglify = require('gulp-uglify'),           // 压缩js
-    imagemin = require('gulp-imagemin'),       // 压缩image
+    htmlmin = require('gulp-htmlmin'),             // 压缩html和页面的css、javascript
+    cleanCSS = require('gulp-clean-css'),          // 压缩css https://github.com/scniro/gulp-clean-css
+    uglify = require('gulp-uglify'),               // 压缩js
+    imagemin = require('gulp-imagemin'),           // 压缩image
 
     config = require('./config.js');
 
@@ -75,11 +76,12 @@ var gulpFun = {
             dest = arguments[1],
             env = arguments[2];
 
-        gulp.src(src)
+        return gulp.src(src)
             .pipe(less())
             .pipe(plumber())
             .pipe(gulpif(!env, cleanCSS()))
-            .pipe(gulp.dest(dest));
+            .pipe(gulp.dest(dest))
+            .pipe(browserSync.stream());
     },
 
     /* js 打包 */
@@ -140,7 +142,7 @@ var gulpFun = {
     /* server */
     server: function(env, cb) {
         var baseDir = env ? config.develop.dirPath : config.production.dirPath;
-        browserSync({
+        browserSync.init({
             server: {
                 // index: 'modules/buttons.html',
                 baseDir: baseDir
@@ -150,9 +152,15 @@ var gulpFun = {
             startPath: 'modules/index.html'
         });
         runSequence('del:dist', 'build:images', 'build:styles', ['build:html', 'build:js', 'build:fonts'], cb);
-        gulp.watch('./src/styles/**/*.*', ['build:styles']).on('change', reload);
-        gulp.watch('./src/modules/**/*.html', ['build:html']).on('change', reload);
-        gulp.watch('./src/js/**/*.js', ['build:js']).on('change', reload);
+        gulp.watch('./src/styles/**/*.*', ['build:styles']).on('change', function(event) {
+            console.log(('File ' + event.path + ' was ' + event.type + ', running tasks...').green);
+        });
+        gulp.watch('./src/modules/**/*.html', ['build:html']).on('change', function(event) {
+            console.log(('File ' + event.path + ' was ' + event.type + ', running tasks...').green);
+        });
+        gulp.watch('./src/js/**/*.js', ['build:js']).on('change', function(event) {
+            console.log(('File ' + event.path + ' was ' + event.type + ', running tasks...').green);
+        });;
     }
 };
 

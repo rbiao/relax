@@ -1,5 +1,8 @@
-// 1. colors
+// 0. support ie
+@support-ie-version: 8;
+@use-autoprefixer: true;
 
+// 1. colors
 @gray-dark:                 #292b2c;
 @gray:                      #464a4c;
 @gray-light:                #636c72;
@@ -46,6 +49,8 @@
 @font-song: Georgia, "Nimbus Roman No9 L", "Songti SC", STSong, "AR PL New Sung", "AR PL SungtiL GB", NSimSun, SimSun, "TW\-Sung", "WenQuanYi Bitmap Song", "AR PL UMing CN", "AR PL UMing HK", "AR PL UMing TW", "AR PL UMing TW MBE", PMingLiU, MingLiU, serif;
 @font-fang-song: Baskerville, "Times New Roman", "Liberation Serif", STFangsong, FangSong, FangSong_GB2312, "CWTEX\-F", serif;
 
+// 5. Default styles
+// 提供默认值，阴影，禁用鼠标样式。
 @box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
 @cursor-disabled: not-allowed;
 
@@ -53,7 +58,8 @@
 @border-radius-lg:       6px;
 @border-radius-sm:       2px;
 
-// Z-Index Scale (private vars)
+// 6. Z-Index Scale (private vars)
+// 提供堆叠顺序值，常量，不可随意更改。
 @zindex-1:   100;
 @zindex-2:   200;
 @zindex-3:   300;
@@ -65,15 +71,11 @@
 @zindex-9:   900;
 @zindex-10: 1000;
 
+// 使用
 @zindex-modal: @zindex-6;
 @zindex-modal-backdrop: @zindex-5;
 
-// sort 颜色
-@sort-default-color: @gray-lighter;
-@sort-selected-color: @brand-primary;
-
-
-// btn
+// 7. btn
 @btn-font-weight: 400;
 @btn-line-height: 1.2;
 @btn-border-width: 1px;
@@ -124,7 +126,11 @@
 
 @btn-block-spacing-y: 10px;
 
-// modals
+// sort 颜色
+@sort-default-color: @gray-lighter;
+@sort-selected-color: @brand-primary;
+
+// 8. modals
 @modal-inner-padding:         15px;
 
 @modal-dialog-margin:         30px auto;
